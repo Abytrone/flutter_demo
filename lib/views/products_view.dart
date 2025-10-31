@@ -10,7 +10,11 @@ class ProductsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Products')),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text('Products'),
+        backgroundColor: Colors.white,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -21,13 +25,13 @@ class ProductsView extends StatelessWidget {
               children: [
                 Text(
                   'Popular Products',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
                 Row(
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.green, width: 1.5),
+                        border: Border.all(color: Colors.teal, width: 1.5),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Padding(
@@ -37,8 +41,14 @@ class ProductsView extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
-                            Text('Filter', style: TextStyle(fontSize: 12)),
-                            Icon(Icons.arrow_drop_down, size: 17),
+                            Text(
+                              'Filter',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Icon(Icons.keyboard_arrow_down, size: 17),
                           ],
                         ),
                       ),
@@ -46,7 +56,7 @@ class ProductsView extends StatelessWidget {
                     const SizedBox(width: 10),
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.green, width: 1.5),
+                        border: Border.all(color: Colors.teal, width: 1.5),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Padding(
@@ -56,8 +66,14 @@ class ProductsView extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
-                            Text('Sort by', style: TextStyle(fontSize: 12)),
-                            Icon(Icons.arrow_drop_down, size: 17),
+                            Text(
+                              'Sort by',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Icon(Icons.keyboard_arrow_down, size: 17),
                           ],
                         ),
                       ),
@@ -66,7 +82,7 @@ class ProductsView extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 40),
             Expanded(
               child: Obx(() {
                 final productController = Get.find<ProductController>();
@@ -83,7 +99,12 @@ class ProductsView extends StatelessWidget {
                   itemCount: productController.productList.value!.length,
                   itemBuilder: (context, index) {
                     final product = productController.productList.value![index];
-                    return ProductCard(product: product);
+                    return ProductCard(
+                      product: product,
+                      isFirst: product.id == 1,
+                      isSecond: product.id == 2,
+                      isFavourite: product.id == 5,
+                    );
                   },
                 );
               }),

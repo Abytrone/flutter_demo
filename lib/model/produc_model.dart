@@ -28,6 +28,7 @@ class ProductModel {
 class Product {
   final int id;
   final String title;
+  final String category;
   final double price;
   final double rating;
   final String thumbnail;
@@ -35,6 +36,7 @@ class Product {
   Product({
     required this.id,
     required this.title,
+    required this.category,
     required this.price,
     required this.rating,
     required this.thumbnail,
@@ -43,6 +45,7 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"],
     title: json["title"],
+    category: json["category"],
     price: json["price"]?.toDouble(),
     rating: json["rating"]?.toDouble(),
     thumbnail: json["thumbnail"],
@@ -51,6 +54,7 @@ class Product {
   Map<String, dynamic> toJson() => {
     "id": id,
     "title": title,
+    "category": category,
     "price": price,
     "rating": rating,
     "thumbnail": thumbnail,

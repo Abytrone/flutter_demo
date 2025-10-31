@@ -3,15 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:product/model/produc_model.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key, required this.product});
+  const ProductCard({
+    super.key,
+    required this.product,
+    required this.isFirst,
+    required this.isSecond,
+    required this.isFavourite,
+  });
   final Product product;
+  final bool isFirst;
+  final bool isSecond;
+  final bool isFavourite;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.withValues(alpha: .3)),
+        color: Colors.white,
+        border: Border.all(color: Colors.grey.withValues(alpha: .15)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -20,7 +30,10 @@ class ProductCard extends StatelessWidget {
           Stack(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
                 child: CachedNetworkImage(
                   imageUrl: product.thumbnail,
                   placeholder: (context, url) =>
@@ -41,12 +54,38 @@ class ProductCard extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    Icons.favorite_border,
-                    color: Colors.grey,
+                    isFavourite ? Icons.favorite : Icons.favorite_border,
+                    color: isFavourite ? Colors.red : Colors.grey,
                     size: 15,
                   ),
                 ),
               ),
+              if (isFirst || isSecond) ...[
+                Positioned(
+                  top: 8,
+                  left: 8,
+
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: isFirst ? Colors.white : Colors.red,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      isFirst
+                          ? 'Trending'
+                          : isSecond
+                          ? 'Top Rated'
+                          : '',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: isFirst ? Colors.black : Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
           const SizedBox(height: 10),
@@ -56,7 +95,7 @@ class ProductCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -65,15 +104,16 @@ class ProductCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                  color: Colors.teal,
                 ),
               ),
               Row(
                 children: [
                   Text(
-                    '${product.rating}',
+                    product.rating.toStringAsFixed(1),
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(width: 4),
                   Icon(Icons.star, color: Colors.amber, size: 15),
                 ],
               ),
